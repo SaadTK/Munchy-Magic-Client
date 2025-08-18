@@ -33,7 +33,7 @@ const Navbar = () => {
         <NavLink to="/" className="btn btn-ghost text-lg">
           Home
         </NavLink>
-        <NavLink to="/recipes" className="btn btn-ghost text-lg">
+        <NavLink to="/all-recipes" className="btn btn-ghost text-lg">
           All Recipes
         </NavLink>
         {user && (

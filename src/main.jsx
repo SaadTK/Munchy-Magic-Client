@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       { path: "add-recipe", element: <AddRecipe /> },
       { path: "all-recipes", element: <AllRecipes /> },
       { path: "my-recipes", element: <MyRecipes /> },
-      { path: "recipe/:id", element: <RecipeDetails /> },
+      { path: "recipe-detail/:id", element: <RecipeDetails /> },
     ],
   },
   { path: "/login", element: <Login /> },
