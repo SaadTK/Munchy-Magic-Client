@@ -62,9 +62,9 @@ const AddRecipe = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-100 to-pink-100 dark:from-neutral dark:to-neutral-content py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white dark:bg-base-200 p-6 sm:p-10 rounded-3xl shadow-2xl border border-orange-200 dark:border-neutral">
-        <h2 className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-6 text-center">
+        <h1 className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-6 text-center">
           🍽️ Create a New Recipe
-        </h2>
+        </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <input
