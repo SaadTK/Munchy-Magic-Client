@@ -12,7 +12,9 @@ import RecipeDetails from "./pages/RecipeDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthProvider from "./providers/AuthContext";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,7 +37,8 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
-      <ToastContainer position="top-center" />
+      {/* <ToastContainer position="top-center" /> */}
+      <Toaster position="top-center" />
     </AuthProvider>
   </StrictMode>
 );
