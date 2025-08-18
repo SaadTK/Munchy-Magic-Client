@@ -1,83 +1,107 @@
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthProvider";
+import { AuthContext } from "../providers/AuthContext";
 import { FiLogOut } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggles";
+import logo from "../assets/logo.png";
+import defaultAvatar from "../assets/avatar-default.svg";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 const Navbar = () => {
-  const { user, logoutUser } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
 
-  const navLinks = (
-    <>
-      <NavLink to="/" className="btn btn-ghost text-base">
-        Home
-      </NavLink>
-      <NavLink to="/recipes" className="btn btn-ghost text-base">
-        All Recipes
-      </NavLink>
-      {user && (
-        <>
-          <NavLink to="/add-recipe" className="btn btn-ghost text-base">
-            Add Recipe
-          </NavLink>
-          <NavLink to="/my-recipes" className="btn btn-ghost text-base">
-            My Recipes
-          </NavLink>
-        </>
-      )}
-    </>
-  );
+  const handleLogout = () => {
+    logOut().catch((err) => console.error(err));
+  };
 
   return (
-    <div className="navbar bg-base-100 shadow-md">
-      <div className="flex-1">
+    <div className="navbar bg-base-100  sticky top-0 z-50 px-6 py-4">
+      {/* Logo */}
+      <div className="navbar-start">
         <Link
           to="/"
-          className="btn btn-ghost normal-case text-xl font-bold text-primary"
+          className="flex items-center gap-3 text-2xl font-bold text-primary"
         >
+          <img src={logo} alt="Munchy Magic" className="w-10 h-10" />
           Munchy Magic
         </Link>
       </div>
-      <div className="flex-none gap-4">
-        <div className="hidden md:flex items-center space-x-2">{navLinks}</div>
-        {!user ? (
+
+      {/* Center Navigation */}
+      <div className="navbar-center hidden lg:flex items-center space-x-6">
+        <NavLink to="/" className="btn btn-ghost text-lg">
+          Home
+        </NavLink>
+        <NavLink to="/recipes" className="btn btn-ghost text-lg">
+          All Recipes
+        </NavLink>
+        {user && (
           <>
-            <Link to="/login" className="btn btn-sm btn-outline">
+            <NavLink to="/add-recipe" className="btn btn-ghost text-lg">
+              Add Recipe
+            </NavLink>
+            <NavLink to="/my-recipes" className="btn btn-ghost text-lg">
+              My Recipes
+            </NavLink>
+          </>
+        )}
+        {user && (
+          <>
+            <Link to="/login" className="btn btn-primary btn-sm">
               Login
             </Link>
-            <Link to="/register" className="btn btn-sm btn-outline">
+            <Link to="/register" className="btn btn-outline btn-sm">
               Register
             </Link>
           </>
-        ) : (
+        )}
+      </div>
+
+      {/* Right Side: Theme + Avatar */}
+      <div className="navbar-end flex items-center gap-4">
+        <ThemeToggle />
+
+        {/* User Dropdown */}
+        {user ? (
           <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-circle avatar">
-              <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src={user.photoURL || "/default-avatar.png"} />
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full border border-primary">
+                <img src={user.photoURL || defaultAvatar} alt="User Avatar" />
               </div>
-            </label>
+            </div>
             <ul
               tabIndex={0}
-              className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4"
+              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
             >
-              <li className="text-center font-semibold">
-                {user.displayName || "User"}
-              </li>
               <li>
-                <div className="flex items-center gap-2">
-                  <ThemeToggle />
-                </div>
+                <span className="font-semibold">
+                  {user.displayName || "User"}
+                </span>
               </li>
               <li>
                 <button
-                  onClick={logoutUser}
-                  className="btn btn-sm text-red-500 flex items-center"
+                  onClick={handleLogout}
+                  className="btn btn-error btn-sm mt-2"
                 >
-                  <FiLogOut className="mr-2" /> Logout
+                  <FiLogOut className="mr-1" /> Logout
                 </button>
               </li>
             </ul>
           </div>
+        ) : (
+          <>
+            <Link to="/login" className="btn btn-primary btn-sm">
+              Login
+            </Link>
+            <Link to="/register" className="btn btn-outline btn-sm">
+              Register
+            </Link>
+          </>
         )}
       </div>
     </div>

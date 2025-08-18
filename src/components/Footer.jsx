@@ -1,20 +1,61 @@
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
+import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-base-200 text-base-content p-10">
-      <div className="container mx-auto text-center">
-        <h2 className="text-2xl font-bold mb-2 text-primary">Munchy Magic</h2>
-        <p>© 2025 Munchy Magic. All rights reserved.</p>
-        <p>Contact us: support@munchymagic.com | +123 456 7890</p>
-        <div className="flex justify-center gap-6 mt-4 text-2xl">
-          <a href="#" aria-label="Facebook" className="hover:text-blue-500">
-            <FaFacebook />
+    <footer className="bg-base-200 text-base-content py-6">
+      <div className="container mx-auto text-center space-y-4">
+        {/* Website Name & Logo */}
+        <div className="flex justify-center items-center gap-3">
+          <img src={logo} alt="Munchy Magic" className="w-8 h-8" />
+          <h2 className="text-xl font-bold">Munchy Magic</h2>
+        </div>
+
+        {/* Copyright Notice */}
+        <p className="text-sm">
+          © {new Date().getFullYear()} Munchy Magic. All rights reserved.
+        </p>
+
+        {/* Contact Information */}
+        <div className="text-sm">
+          <p>
+            Email:{" "}
+            <a href="mailto:contact@munchymagic.com" className="text-primary">
+              contact@munchymagic.com
+            </a>
+          </p>
+          <p>
+            Phone:{" "}
+            <a href="tel:+1234567890" className="text-primary">
+              +1 (234) 567-890
+            </a>
+          </p>
+        </div>
+
+        {/* Social Media Links */}
+        <div className="flex justify-center gap-4 text-lg">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary"
+          >
+            <FaFacebookF />
           </a>
-          <a href="#" aria-label="Twitter" className="hover:text-blue-400">
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary"
+          >
             <FaTwitter />
           </a>
-          <a href="#" aria-label="Instagram" className="hover:text-pink-500">
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary"
+          >
             <FaInstagram />
           </a>
         </div>
