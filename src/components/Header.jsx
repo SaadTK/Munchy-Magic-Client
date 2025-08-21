@@ -46,7 +46,7 @@ const Navbar = () => {
             </NavLink>
           </>
         )}
-        {user && (
+        {/* {user && (
           <>
             <Link to="/login" className="btn btn-primary btn-sm">
               Login
@@ -55,7 +55,7 @@ const Navbar = () => {
               Register
             </Link>
           </>
-        )}
+        )} */}
       </div>
 
       {/* Right Side: Theme + Avatar */}

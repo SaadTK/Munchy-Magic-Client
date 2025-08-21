@@ -30,9 +30,16 @@ const AuthProvider = ({ children }) => {
   };
 
   // Logout
+  // const logOut = () => {
+  //   setLoading(true);
+  //   return signOut(auth);
+  // };
+
   const logOut = () => {
     setLoading(true);
-    return signOut(auth);
+    return signOut(auth)
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
   };
 
   // Google sign in

@@ -3,8 +3,7 @@ import { toast } from "react-hot-toast";
 
 const AddRecipe = () => {
   const [title, setTitle] = useState("");
-  const [imageFile, setImageFile] = useState("");
-  const [imagePreview, setImagePreview] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
   const [ingredients, setIngredients] = useState([""]);
   const [instructions, setInstructions] = useState([""]);
@@ -41,18 +40,12 @@ const AddRecipe = () => {
     );
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newRecipe1 = {
+
+    const newRecipe = {
       title,
+      imageUrl,
       description,
       ingredients,
       instructions,
@@ -62,28 +55,21 @@ const AddRecipe = () => {
       cuisine,
       categories: selectedCategories,
       likeCount: 0,
-      imageFile,
     };
-    console.log(newRecipe1);
+
+    console.log("Submitting recipe:", newRecipe);
     toast.success("Recipe added successfully!");
 
-    const form = e.target;
-    const formData = new FormData(form);
-
-    const newRecipe = Object.fromEntries(formData.entries());
-    console.log(newRecipe);
-
-    //send recipe data to the db
     fetch("http://localhost:3002/recipes", {
       method: "POST",
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(newRecipe),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("after adding recipe to the db", data);
+        console.log("Recipe added to DB:", data);
       });
   };
 
@@ -94,15 +80,11 @@ const AddRecipe = () => {
           🍽️ Add a New Recipe
         </h1>
         <p className="text-center text-lg text-orange-500 dark:text-orange-300 max-w-xl mx-auto mb-8 font-medium leading-relaxed">
-          Enter your recipe’s details, instructions, and photo to share your
+          Enter your recipe’s details, instructions, and image URL to share your
           dish with food lovers everywhere!
         </p>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-8"
-          encType="multipart/form-data"
-        >
+        <form onSubmit={handleSubmit} className="space-y-8">
           {/* Recipe Title */}
           <div>
             <label className="text-lg font-semibold text-orange-700 dark:text-orange-300 mb-2 block">
@@ -112,31 +94,33 @@ const AddRecipe = () => {
               type="text"
               name="title"
               placeholder="Recipe Title"
-              className="input input-bordered input-lg w-full text-lg shadow-sm focus:ring-2 focus:ring-orange-400 transition"
+              className="input input-bordered input-lg w-full text-lg"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
 
-          {/* Image File Upload */}
+          {/* Image URL Input */}
           <div>
-            <label className="text-lg font-semibold text-orange-700 dark:text-orange-300 mb-3 block">
-              Upload Recipe Image <span className="text-red-500">*</span>
+            <label className="text-lg font-semibold text-orange-700 dark:text-orange-300 mb-2 block">
+              Recipe Image URL <span className="text-red-500">*</span>
             </label>
-            {imagePreview && (
+            {imageUrl && (
               <img
-                src={imagePreview}
+                src={imageUrl}
                 alt="Image Preview"
+                onError={(e) => (e.target.style.display = "none")}
                 className="w-full sm:w-64 h-44 object-cover rounded-xl mb-4 shadow-lg border border-orange-300 dark:border-orange-600 mx-auto"
               />
             )}
             <input
-              type="file"
-              name="imageFile"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="file-input file-input-bordered w-full"
+              type="url"
+              name="imageUrl"
+              placeholder="https://example.com/recipe.jpg"
+              className="input input-bordered w-full"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
               required
             />
           </div>
@@ -148,7 +132,7 @@ const AddRecipe = () => {
             </label>
             <textarea
               name="description"
-              className="textarea textarea-bordered w-full h-24 resize-y shadow-sm focus:ring-2 focus:ring-orange-400 transition text-base"
+              className="textarea textarea-bordered w-full h-24 resize-y text-base"
               placeholder="Write a short description about your recipe..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -166,7 +150,7 @@ const AddRecipe = () => {
                   key={idx}
                   type="text"
                   name={`ingredients[${idx}]`}
-                  className="input input-bordered w-full shadow-sm focus:ring-2 focus:ring-orange-400 transition"
+                  className="input input-bordered w-full"
                   value={ing}
                   onChange={(e) => handleIngredientChange(idx, e.target.value)}
                   placeholder="e.g. 2 cups flour"
@@ -175,7 +159,7 @@ const AddRecipe = () => {
             </div>
             <button
               type="button"
-              className="btn btn-outline btn-sm mt-3 tracking-wide hover:bg-orange-100 dark:hover:bg-orange-700 transition"
+              className="btn btn-outline btn-sm mt-3"
               onClick={() => setIngredients([...ingredients, ""])}
             >
               ➕ Add Ingredient
@@ -192,7 +176,7 @@ const AddRecipe = () => {
                 <textarea
                   key={idx}
                   name={`instructions[${idx}]`}
-                  className="textarea textarea-bordered w-full h-24 resize-y shadow-sm focus:ring-2 focus:ring-orange-400 transition text-base"
+                  className="textarea textarea-bordered w-full h-24 resize-y text-base"
                   value={ins}
                   onChange={(e) => handleInstructionChange(idx, e.target.value)}
                   placeholder={`Step ${idx + 1}`}
@@ -201,7 +185,7 @@ const AddRecipe = () => {
             </div>
             <button
               type="button"
-              className="btn btn-outline btn-sm mt-3 tracking-wide hover:bg-orange-100 dark:hover:bg-orange-700 transition"
+              className="btn btn-outline btn-sm mt-3"
               onClick={() => setInstructions([...instructions, ""])}
             >
               ➕ Add Step
@@ -218,7 +202,7 @@ const AddRecipe = () => {
                 type="number"
                 name="servings"
                 min={1}
-                className="input input-bordered w-full shadow-sm focus:ring-2 focus:ring-orange-400 transition"
+                className="input input-bordered w-full"
                 placeholder="e.g. 4"
                 value={servings}
                 onChange={(e) => setServings(e.target.value)}
@@ -235,7 +219,7 @@ const AddRecipe = () => {
                   type="number"
                   name="cookingHours"
                   min={0}
-                  className="input input-bordered w-1/2 shadow-sm focus:ring-2 focus:ring-orange-400 transition text-center"
+                  className="input input-bordered w-1/2 text-center"
                   placeholder="Hours"
                   value={cookingTime.hours}
                   onChange={(e) =>
@@ -247,7 +231,7 @@ const AddRecipe = () => {
                   name="cookingMinutes"
                   min={0}
                   max={59}
-                  className="input input-bordered w-1/2 shadow-sm focus:ring-2 focus:ring-orange-400 transition text-center"
+                  className="input input-bordered w-1/2 text-center"
                   placeholder="Minutes"
                   value={cookingTime.minutes}
                   onChange={(e) =>
@@ -267,7 +251,7 @@ const AddRecipe = () => {
                   type="number"
                   name="prepHours"
                   min={0}
-                  className="input input-bordered w-1/2 shadow-sm focus:ring-2 focus:ring-orange-400 transition text-center"
+                  className="input input-bordered w-1/2 text-center"
                   placeholder="Hours"
                   value={prepTime.hours}
                   onChange={(e) =>
@@ -279,7 +263,7 @@ const AddRecipe = () => {
                   name="prepMinutes"
                   min={0}
                   max={59}
-                  className="input input-bordered w-1/2 shadow-sm focus:ring-2 focus:ring-orange-400 transition text-center"
+                  className="input input-bordered w-1/2 text-center"
                   placeholder="Minutes"
                   value={prepTime.minutes}
                   onChange={(e) =>
@@ -297,7 +281,7 @@ const AddRecipe = () => {
             </label>
             <select
               name="cuisine"
-              className="select select-bordered w-full shadow-sm focus:ring-2 focus:ring-orange-400 transition"
+              className="select select-bordered w-full"
               value={cuisine}
               onChange={(e) => setCuisine(e.target.value)}
               required
@@ -341,7 +325,7 @@ const AddRecipe = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="btn btn-primary w-full py-4 text-xl font-semibold tracking-wide hover:bg-orange-600 transition"
+            className="btn btn-primary w-full py-4 text-xl font-semibold"
           >
             🍲 Add Recipe
           </button>
