@@ -1,94 +1,121 @@
-import { useContext, useState } from "react";
-import { toast } from "react-hot-toast";
-import { AuthContext } from "../providers/AuthContext";
+import { useState, useEffect } from "react";
 
-const AddRecipe = () => {
-  const { user } = useContext(AuthContext);
+const cuisineOptions = [
+  "Bangladeshi",
+  "Indian",
+  "Italian",
+  "Chinese",
+  "Mexican",
+];
+const categoriesList = ["Breakfast", "Lunch", "Dinner", "Dessert", "Snacks"];
 
+function Modal({ recipe, onClose, onSave }) {
+  // Initialize state for all form fields
   const [title, setTitle] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
-  const [ingredients, setIngredients] = useState([""]);
-  const [instructions, setInstructions] = useState([""]);
+  const [ingredients, setIngredients] = useState([]);
+  const [instructions, setInstructions] = useState([]);
   const [servings, setServings] = useState("");
-  const [cookingTime, setCookingTime] = useState({ hours: "", minutes: "" });
-  const [prepTime, setPrepTime] = useState({ hours: "", minutes: "" });
+  const [cookingTime, setCookingTime] = useState({ hours: 0, minutes: 0 });
+  const [prepTime, setPrepTime] = useState({ hours: 0, minutes: 0 });
   const [cuisine, setCuisine] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
 
-  const cuisineOptions = [
-    "Bangladeshi",
-    "Indian",
-    "Italian",
-    "Chinese",
-    "Mexican",
-  ];
-  const categories = ["Breakfast", "Lunch", "Dinner", "Dessert", "Snacks"];
+  // Initialize form fields from recipe when modal opens
+  useEffect(() => {
+    if (!recipe) return;
 
-  const handleIngredientChange = (index, value) => {
-    const updated = [...ingredients];
-    updated[index] = value;
-    setIngredients(updated);
+    setTitle(recipe.title || "");
+    setImageUrl(recipe.imageUrl || "");
+    setDescription(recipe.description || "");
+    setIngredients(recipe.ingredients || []);
+    setInstructions(recipe.instructions || []);
+    setServings(recipe.servings || "");
+    setCookingTime(recipe.cookingTime || { hours: 0, minutes: 0 });
+    setPrepTime(recipe.prepTime || { hours: 0, minutes: 0 });
+    setCuisine(recipe.cuisine || "");
+    setSelectedCategories(recipe.categories || []);
+  }, [recipe]);
+
+  // Handle dynamic ingredients change
+  const handleIngredientChange = (idx, value) => {
+    const newIngredients = [...ingredients];
+    newIngredients[idx] = value;
+    setIngredients(newIngredients);
   };
 
-  const handleInstructionChange = (index, value) => {
-    const updated = [...instructions];
-    updated[index] = value;
-    setInstructions(updated);
+  // Handle dynamic instructions change
+  const handleInstructionChange = (idx, value) => {
+    const newInstructions = [...instructions];
+    newInstructions[idx] = value;
+    setInstructions(newInstructions);
   };
 
+  // Toggle category checkbox
   const toggleCategory = (cat) => {
-    setSelectedCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
+    if (selectedCategories.includes(cat)) {
+      setSelectedCategories(selectedCategories.filter((c) => c !== cat));
+    } else {
+      setSelectedCategories([...selectedCategories, cat]);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newRecipe = {
-      title,
-      imageUrl,
-      description,
-      ingredients,
-      instructions,
-      servings,
-      cookingTime,
-      prepTime,
-      cuisine,
+    // Build update object matching your backend schema
+    const updatedRecipe = {
+      title: title.trim(),
+      imageUrl: imageUrl.trim(),
+      description: description.trim(),
+      ingredients: ingredients.filter((i) => i.trim() !== ""),
+      instructions: instructions.filter((i) => i.trim() !== ""),
+      servings: Number(servings),
+      cookingTime: {
+        hours: Number(cookingTime.hours),
+        minutes: Number(cookingTime.minutes),
+      },
+      prepTime: {
+        hours: Number(prepTime.hours),
+        minutes: Number(prepTime.minutes),
+      },
+      cuisine: cuisine.trim(),
       categories: selectedCategories,
-      likeCount: 0,
-      userEmail: user?.email, // ✅ Add logged-in user's email
     };
 
-    fetch("http://localhost:3002/recipes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newRecipe),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Recipe added to DB:", data);
-        toast.success("Recipe added successfully!");
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Failed to add recipe.");
-      });
+    try {
+      const res = await fetch(
+        `http://localhost:3002/all-recipes/${recipe._id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedRecipe),
+        }
+      );
+
+      if (!res.ok) throw new Error("Update failed");
+
+      onSave(updatedRecipe);
+      onClose();
+    } catch (err) {
+      alert("Failed to update recipe, please try again.");
+      console.error(err);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-100 to-pink-100 dark:from-neutral dark:to-neutral-content py-12 px-6 sm:px-12 lg:px-24 flex justify-center">
-      <div className="w-full max-w-4xl bg-white dark:bg-base-200 p-10 rounded-3xl shadow-2xl border border-orange-200 dark:border-neutral space-y-8">
-        <h1 className="text-4xl font-extrabold text-center text-orange-600 dark:text-orange-400 mb-8 tracking-wide">
-          🍽️ Add a New Recipe
-        </h1>
-        <p className="text-center text-lg text-orange-500 dark:text-orange-300 max-w-xl mx-auto mb-8 font-medium leading-relaxed">
-          Enter your recipe’s details, instructions, and image URL to share your
-          dish with food lovers everywhere!
-        </p>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-2xl font-bold mb-6 text-orange-700 dark:text-orange-300">
+          Edit Recipe
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Recipe Title */}
@@ -309,7 +336,7 @@ const AddRecipe = () => {
               Categories
             </label>
             <div className="flex flex-wrap gap-4">
-              {categories.map((cat) => (
+              {categoriesList.map((cat) => (
                 <label
                   key={cat}
                   className="flex items-center gap-2 cursor-pointer select-none"
@@ -333,12 +360,12 @@ const AddRecipe = () => {
             type="submit"
             className="btn btn-primary w-full py-4 text-xl font-semibold"
           >
-            🍲 Add Recipe
+            🍲 Save Recipe
           </button>
         </form>
       </div>
     </div>
   );
-};
+}
 
-export default AddRecipe;
+export default Modal;

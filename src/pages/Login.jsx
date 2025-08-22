@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthContext.jsx";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast from "react-hot-toast";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
+
 const Login = () => {
   const { signIn, signInWithGoogle } = useContext(AuthContext);
   const [error, setError] = useState("");
@@ -47,7 +47,7 @@ const Login = () => {
   return (
     <>
       <header>
-        <Header></Header>
+        <Header />
       </header>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
@@ -119,7 +119,7 @@ const Login = () => {
         </div>
       </div>
       <footer>
-        <Footer></Footer>
+        <Footer />
       </footer>
     </>
   );

@@ -1,15 +1,13 @@
 import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast"; // ✅ react-hot-toast
 import { AuthContext } from "../providers/AuthContext";
 
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 const Register = () => {
-  // const { registerUser, signInWithGoogle } = AuthContext();
   const { createUser, signInWithGoogle } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -38,9 +36,9 @@ const Register = () => {
     setError("");
 
     if (!validatePassword(formData.password)) {
-      setError(
-        "Password must contain an uppercase letter, a lowercase letter, and be at least 6 characters."
-      );
+      const msg =
+        "Password must contain an uppercase letter, a lowercase letter, and be at least 6 characters.";
+      setError(msg);
       toast.error("Invalid password. Follow the requirements.");
       return;
     }
@@ -61,23 +59,22 @@ const Register = () => {
       toast.success("Google login successful!");
       navigate("/");
     } catch (err) {
-      toast.error("Google login failed!", err);
+      console.log(err)
+      toast.error("Google login failed!");
     }
   };
 
   return (
     <>
       <header>
-        <Header></Header>
+        <Header />
       </header>
       <div className="min-h-screen flex items-center justify-center bg-base-100">
         <div className="w-full max-w-md p-6 bg-base-200 rounded-lg shadow-lg">
-          {/* Title */}
           <h2 className="text-center text-3xl font-bold mb-6 text-primary">
             Register
           </h2>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="text"
@@ -120,7 +117,6 @@ const Register = () => {
             </button>
           </form>
 
-          {/* Social Login */}
           <button
             onClick={handleGoogleSignIn}
             className="btn btn-outline w-full mt-4"
@@ -128,7 +124,6 @@ const Register = () => {
             Sign in with Google
           </button>
 
-          {/* Login Link */}
           <p className="text-center mt-4">
             Already have an account?{" "}
             <Link to="/login" className="text-primary font-semibold">
@@ -138,7 +133,7 @@ const Register = () => {
         </div>
       </div>
       <footer>
-        <Footer></Footer>
+        <Footer />
       </footer>
     </>
   );
