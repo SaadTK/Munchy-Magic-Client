@@ -46,12 +46,7 @@ const Register = () => {
     }
 
     try {
-      await createUser(
-        formData.name,
-        formData.email,
-        formData.password,
-        formData.photoURL
-      );
+      await createUser(formData.email, formData.password);
       toast.success("Registration successful!");
       navigate("/");
     } catch (err) {

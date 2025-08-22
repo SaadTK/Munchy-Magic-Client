@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../providers/AuthContext";
+import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const RecipeDetails = () => {
   const { id } = useParams();
+  const { user } = useContext(AuthContext);
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [likes, setLikes] = useState(0);
+  const [likeDisabled, setLikeDisabled] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:3002/all-recipes/${id}`)
@@ -17,23 +22,63 @@ const RecipeDetails = () => {
       .then((data) => {
         setRecipe(data);
         setLikes(data.likeCount || 0);
+
+        // Disable like if it's your own recipe or you've already liked it
+        if (user) {
+          if (data.userEmail === user.email) {
+            setLikeDisabled(true);
+          } else if (data.likedBy?.includes(user.email)) {
+            setLikeDisabled(true);
+          }
+        }
+
         setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
-  }, [id]);
+  }, [id, user]);
 
   const handleLike = () => {
-    // Future: send a PATCH request to update like count in the DB
+    if (!user) {
+      toast.error("Please login to like the recipe.");
+      return;
+    }
+
+    if (recipe.userEmail === user.email) {
+      toast.error("You cannot like your own recipe.");
+      return;
+    }
+
+    // Optimistic update
     setLikes((prev) => prev + 1);
+    setLikeDisabled(true);
+
+    fetch(`http://localhost:3002/all-recipes/${id}/like`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: user.email }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update like count");
+        return res.json();
+      })
+      .then((data) => {
+        toast.success("You liked this recipe!");
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to update like count.");
+        setLikes((prev) => prev - 1); // revert like
+        setLikeDisabled(false); // re-enable
+      });
   };
 
-  if (loading)
-    return (
-      <p className="text-center text-lg mt-8">Loading recipe details...</p>
-    );
+  if (loading) return <Loader />;
   if (error) return <p className="text-center text-red-500 mt-8">{error}</p>;
   if (!recipe)
     return <p className="text-center text-gray-500 mt-8">No recipe found.</p>;
@@ -102,16 +147,18 @@ const RecipeDetails = () => {
         )}
       </div>
 
-      {/* Like Button */}
+      {/* Like Section */}
       <div className="flex items-center justify-between mt-6">
         <p className="text-gray-600 text-sm">
-          ❤️ {likes} {likes === 1 ? "Like" : "Likes"}
+          ❤️ {likes} {likes === 1 ? "person interested" : "people interested"} in
+          this recipe
         </p>
         <button
           onClick={handleLike}
           className="btn btn-outline btn-primary btn-sm"
+          disabled={likeDisabled}
         >
-          Like this recipe
+          {likeDisabled ? "Liked" : "Like this recipe"}
         </button>
       </div>
     </div>
