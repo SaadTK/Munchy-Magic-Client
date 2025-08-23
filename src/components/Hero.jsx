@@ -37,20 +37,20 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden">
+    <div className="relative h-screen w-screen overflow-hidden">
       {/* Slider - background images */}
-      <Slider {...settings} className="absolute inset-0 z-0 h-full">
+      <Slider {...settings} className="absolute inset-0 z-0 h-full w-full">
         {slides.map((slide) => (
-          <div key={slide.id}>
+          <div key={slide.id} className="relative w-full h-screen">
             <img
               src={slide.image}
               alt={`Slide ${slide.id}`}
-              className="w-full h-screen object-cover"
+              className="w-full h-full object-cover"
             />
             <div className="absolute inset-0  bg-opacity-50">
               {/* Text content on top */}
-              <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4 text-white max-w-4xl mx-auto">
-                <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4 sm:px-6 md:px-10 text-white max-w-4xl mx-auto">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                   Discover{" "}
                   <span className="text-rose-400">
                     <Typewriter
@@ -64,18 +64,18 @@ const Hero = () => {
                     />
                   </span>
                 </h1>
-                <p className="text-lg md:text-xl mb-10 text-gray-200">
+                <p className="text-base sm:text-lg md:text-xl mb-10 text-gray-200 max-w-xl">
                   Share your culinary creations and explore dishes from around
                   the world on Munchy Magic.
                 </p>
-                <div className="flex gap-6">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                   <Link to="/add-recipe">
-                    <button className="btn btn-primary px-8">
+                    <button className="btn btn-primary px-8 py-3">
                       Share a Recipe
                     </button>
                   </Link>
                   <Link to="/all-recipes">
-                    <button className="btn btn-outline border-white text-white hover:bg-white hover:text-black px-8">
+                    <button className="btn btn-outline border-white text-white hover:bg-white hover:text-black px-8 py-3">
                       Browse Recipes
                     </button>
                   </Link>

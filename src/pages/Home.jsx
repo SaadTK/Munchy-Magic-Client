@@ -8,6 +8,7 @@ import AboutUs from "./AboutUs";
 import Testimonials from "./Testimonials";
 import ChefsTips from "./ChefsTips";
 import Hero from "../components/Hero";
+import NewsLetter from "../components/NewsLetter";
 
 const Home = () => {
   const recipes = useLoaderData();
@@ -15,15 +16,21 @@ const Home = () => {
 
   return (
     <div className="w-screen">
-      <Hero></Hero>
+      <Hero />
 
-      <TopRecipes></TopRecipes>
+      <AboutUs />
 
-      <ShareYourRecipe></ShareYourRecipe>
-      <SeeAllRecipes></SeeAllRecipes>
-      <AboutUs></AboutUs>
-      <Testimonials></Testimonials>
-      <ChefsTips></ChefsTips>
+      <TopRecipes />
+
+      <ChefsTips />
+
+      <Testimonials />
+
+      <SeeAllRecipes />
+
+      <ShareYourRecipe />
+
+      <NewsLetter />
     </div>
   );
 };
