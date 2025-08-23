@@ -7,18 +7,16 @@ import SeeAllRecipes from "../components/SeeAllRecipes";
 import AboutUs from "./AboutUs";
 import Testimonials from "./Testimonials";
 import ChefsTips from "./ChefsTips";
+import Hero from "../components/Hero";
 
 const Home = () => {
   const recipes = useLoaderData();
   console.log(recipes);
 
   return (
-    <div>
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {recipes.map((recipe) => (
-          <RecipeCard key={recipe._id} recipe={recipe}></RecipeCard>
-        ))}
-      </div> */}
+    <div className="w-screen">
+      <Hero></Hero>
+
       <TopRecipes></TopRecipes>
 
       <ShareYourRecipe></ShareYourRecipe>

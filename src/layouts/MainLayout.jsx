@@ -11,10 +11,11 @@ const MainLayout = () => {
 
   return (
     <>
-      <header className="w-11/12 mx-auto">
+      {/* <header className="w-11/12 mx-auto"> */}
+      <header>
         <Header />
       </header>
-      <div className="max-w-7xl mx-auto">
+      <div>
         <Outlet />
       </div>
       <footer>
