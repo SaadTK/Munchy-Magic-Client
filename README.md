@@ -1,6 +1,6 @@
 # Munchy Magic — Recipe Book App
 
-![Munchy Magic Logo](./public/logo.png)  
+[![Munchy Magic Logo](./public/logo.png)](https://munchy-magic.netlify.app/assets/logo-BNkAZC03.png)  
 *A modern, full-stack Recipe Book app with user authentication, recipe management, and a sleek UI.*
 
 ---
