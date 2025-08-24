@@ -1,6 +1,6 @@
-# Munchy Magic — Recipe Book App
+# Munchy Magic — Recipe Book App <img src="https://munchy-magic.netlify.app/assets/logo-BNkAZC03.png" alt="logo" width="40"/>
 
-[![Munchy Magic Logo](./public/logo.png)](https://munchy-magic.netlify.app/assets/logo-BNkAZC03.png)  
+
 *A modern, full-stack Recipe Book app with user authentication, recipe management, and a sleek UI.*
 
 ---
@@ -74,14 +74,6 @@ Munchy Magic is a recipe sharing platform where users can browse, add, edit, and
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v16+ recommended)  
-- MongoDB instance  
-- Firebase project  
-
-### Installation
-
-#### Client
-```bash
-cd client
-npm install
-npm run dev
+- Node.js  
+- MongoDB   
+- Firebase
