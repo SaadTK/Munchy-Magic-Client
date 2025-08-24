@@ -61,7 +61,7 @@ const AddRecipe = () => {
       userEmail: user?.email, // ✅ Add logged-in user's email
     };
 
-    fetch("http://localhost:3002/recipes", {
+    fetch("https://munchy-magic-server.onrender.com/recipes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

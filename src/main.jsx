@@ -26,7 +26,7 @@ const router = createBrowserRouter(
       children: [
         {
           index: true,
-          loader: () => fetch("http://localhost:3002/all-recipes"),
+          loader: () => fetch("https://munchy-magic-server.onrender.com/all-recipes"),
           element: <Home />,
         },
         { path: "all-recipes", element: <AllRecipes /> },

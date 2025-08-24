@@ -5,7 +5,7 @@ const TopRecipes = () => {
   const [topRecipes, setTopRecipes] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3002/top-recipes")
+    fetch("https://munchy-magic-server.onrender.com/top-recipes")
       .then((res) => res.json())
       .then((data) => setTopRecipes(data))
       .catch((err) => console.error("Failed to fetch top recipes:", err));

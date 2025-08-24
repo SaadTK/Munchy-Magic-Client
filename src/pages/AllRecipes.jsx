@@ -8,7 +8,7 @@ const AllRecipes = () => {
   const [selectedCuisine, setSelectedCuisine] = useState("All");
 
   useEffect(() => {
-    fetch(`http://localhost:3002/recipes-by-cuisine?cuisine=${selectedCuisine}`)
+    fetch(`https://munchy-magic-server.onrender.com/recipes-by-cuisine?cuisine=${selectedCuisine}`)
       .then((res) => res.json())
       .then((data) => {
         setRecipes(data);

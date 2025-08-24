@@ -14,7 +14,9 @@ const MyRecipes = () => {
   useEffect(() => {
     if (!user) return;
     setLoading(true);
-    fetch(`http://localhost:3002/my-recipes?userEmail=${user.email}`)
+    fetch(
+      `https://munchy-magic-server.onrender.com/my-recipes?userEmail=${user.email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setMyRecipes(data);
@@ -34,7 +36,7 @@ const MyRecipes = () => {
     if (!confirm) return;
 
     try {
-      const res = await fetch(`http://localhost:3002/all-recipes/${id}`, {
+      const res = await fetch(`https://munchy-magic-server.onrender.com/all-recipes/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
@@ -65,7 +67,7 @@ const MyRecipes = () => {
 
   //   try {
   //     const res = await fetch(
-  //       `http://localhost:3002/all-recipes/${editingRecipe._id}`,
+  //       `http://:3002/all-recipes/${editingRecipe._id}`,
   //       {
   //         method: "PATCH",
   //         headers: { "Content-Type": "application/json" },

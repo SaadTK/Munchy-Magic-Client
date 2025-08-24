@@ -14,7 +14,7 @@ const RecipeDetails = () => {
   const [likeDisabled, setLikeDisabled] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3002/all-recipes/${id}`)
+    fetch(`https://munchy-magic-server.onrender.com/all-recipes/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch recipe");
         return res.json();
@@ -55,7 +55,7 @@ const RecipeDetails = () => {
     setLikes((prev) => prev + 1);
     setLikeDisabled(true);
 
-    fetch(`http://localhost:3002/all-recipes/${id}/like`, {
+    fetch(`https://munchy-magic-server.onrender.com/all-recipes/${id}/like`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -150,8 +150,8 @@ const RecipeDetails = () => {
       {/* Like Section */}
       <div className="flex items-center justify-between mt-6">
         <p className="text-gray-600 text-sm">
-          ❤️ {likes} {likes === 1 ? "person interested" : "people interested"} in
-          this recipe
+          ❤️ {likes} {likes === 1 ? "person interested" : "people interested"}{" "}
+          in this recipe
         </p>
         <button
           onClick={handleLike}

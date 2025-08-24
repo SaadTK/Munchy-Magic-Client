@@ -86,7 +86,7 @@ function Modal({ recipe, onClose, onSave }) {
 
     try {
       const res = await fetch(
-        `http://localhost:3002/all-recipes/${recipe._id}`,
+        `https://munchy-magic-server.onrender.com/all-recipes/${recipe._id}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
