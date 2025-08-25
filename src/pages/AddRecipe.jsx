@@ -1,9 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../providers/AuthContext";
-import { Helmet } from "react-helmet-async";
 
+import { useMeta } from "../providers/MetaContext";
 const AddRecipe = () => {
+  const { setMeta } = useMeta();
+
+  useEffect(() => {
+    setMeta({
+      title: "Add A Recipe | Munchy Magic",
+      description: "Add your own recipe that you like.",
+    });
+  }, []);
+
   const { user } = useContext(AuthContext);
 
   const [title, setTitle] = useState("");
@@ -82,14 +91,6 @@ const AddRecipe = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Add a Recipe | Munchy Magic</title>
-        <meta
-          name="description"
-          content="Add your own recipe for all others."
-        />
-      </Helmet>
-
       <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-100 to-pink-100 dark:from-neutral dark:to-neutral-content py-12 px-6 sm:px-12 lg:px-24 flex justify-center">
         <div className="w-full max-w-4xl bg-white dark:bg-base-200 p-10 rounded-3xl shadow-2xl border border-orange-200 dark:border-neutral space-y-8">
           <h1 className="text-4xl font-extrabold text-center text-orange-600 dark:text-orange-400 mb-8 tracking-wide">

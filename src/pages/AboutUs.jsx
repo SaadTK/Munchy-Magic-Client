@@ -1,16 +1,8 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 
 const AboutUs = () => {
   return (
     <>
-      <Helmet>
-        <title>All Recipes | Munchy Magic</title>
-        <meta
-          name="description"
-          content="Browse all delicious recipes from various cuisines on Munchy Magic."
-        />
-      </Helmet>
       <section className="bg-base-100 py-16 px-6">
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-12">
           {/* Text Content */}

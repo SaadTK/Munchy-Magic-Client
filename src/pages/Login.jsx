@@ -1,12 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthContext.jsx";
 import toast from "react-hot-toast";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
-import { Helmet } from "react-helmet-async";
 
+import { useMeta } from "../providers/MetaContext";
 const Login = () => {
+  const { setMeta } = useMeta();
+  useEffect(() => {
+    setMeta({
+      title: "Login | Munchy Magic",
+      description:
+        "Login and browse all delicious recipes from various cuisines.",
+    });
+  }, []);
+
   const { signIn, signInWithGoogle } = useContext(AuthContext);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -47,14 +56,6 @@ const Login = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Login | Munchy Magic</title>
-        <meta
-          name="description"
-          content="Login and browse all delicious recipes from various cuisines on Munchy Magic."
-        />
-      </Helmet>
-
       <header>
         <Header />
       </header>

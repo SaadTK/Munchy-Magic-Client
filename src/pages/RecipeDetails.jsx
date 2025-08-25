@@ -3,8 +3,17 @@ import { useParams } from "react-router-dom";
 import { AuthContext } from "../providers/AuthContext";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
-import { Helmet } from "react-helmet-async";
+
+import { useMeta } from "../providers/MetaContext";
 const RecipeDetails = () => {
+  const { setMeta } = useMeta();
+  useEffect(() => {
+    setMeta({
+      title: `${recipe.title} | Munchy Magic`,
+      description: `Browse details of ${recipe.title} recipe. Browse all delicious recipes from various cuisines.`,
+    });
+  }, []);
+
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const [recipe, setRecipe] = useState(null);
@@ -85,14 +94,6 @@ const RecipeDetails = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{recipe.title} | Munchy Magic</title>
-        <meta
-          name="description"
-          content={`Learn how to cook ${recipe.title} with the process below.`}
-        />
-      </Helmet>
-
       <div className="p-6 max-w-5xl mx-auto">
         <h1 className="text-4xl font-bold text-orange-600 mb-4 text-center">
           {recipe.title}

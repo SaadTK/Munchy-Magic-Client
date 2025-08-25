@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 // import RecipeCard from "./RecipeCard";
 import ShareYourRecipe from "../components/ShareYourRecipe";
@@ -9,18 +9,23 @@ import Testimonials from "./Testimonials";
 import ChefsTips from "./ChefsTips";
 import Hero from "../components/Hero";
 import NewsLetter from "../components/NewsLetter";
-import { Helmet } from "react-helmet-async";
+
+import { useMeta } from "../providers/MetaContext";
+
 const Home = () => {
+  const { setMeta } = useMeta();
+  useEffect(() => {
+    setMeta({
+      title: "Home | Munchy Magic",
+      description: "Browse all delicious recipes from various cuisines.",
+    });
+  }, []);
+
   const recipes = useLoaderData();
   console.log(recipes);
 
   return (
     <>
-      <Helmet>
-        <title>Munchy Magic</title>
-        <meta name="description" content="Home is Where the Heart is." />
-      </Helmet>
-
       <div className="w-screen">
         <Hero />
 

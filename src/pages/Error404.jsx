@@ -1,14 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Lottie from "lottie-react";
 import loaderAnimation from "../assets/loader.json";
 import { AuthContext } from "../providers/AuthContext";
 
-import { Helmet } from "react-helmet-async";
-
+import { useMeta } from "../providers/MetaContext";
 const Error404 = ({
   message = "Oops! Page not found or something went wrong.",
 }) => {
+  const { setMeta } = useMeta();
+  useEffect(() => {
+    setMeta({
+      title: "All Recipes | Munchy Magic",
+      description: "Browse all delicious recipes from various cuisines.",
+    });
+  }, []);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useContext(AuthContext);
@@ -24,14 +31,6 @@ const Error404 = ({
 
   return (
     <>
-      <Helmet>
-        <title>404 Error | Munchy Magic</title>
-        <meta
-          name="description"
-          content="This is an error. Please go back to home page."
-        />
-      </Helmet>
-
       <div
         style={{
           minHeight: "100vh",

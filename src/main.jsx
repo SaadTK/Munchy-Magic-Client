@@ -1,4 +1,5 @@
-import { HelmetProvider } from "react-helmet-async";
+import { MetaProvider } from "./providers/MetaContext";
+
 import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -13,7 +14,7 @@ import RecipeDetails from "./pages/RecipeDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthProvider from "./providers/AuthContext";
-// import { ToastContainer } from "react-toastify";
+
 import { Toaster } from "react-hot-toast";
 import Loader from "./components/Loader";
 import PrivateRoute from "./components/PrivateRoute";
@@ -72,13 +73,15 @@ const router = createBrowserRouter(
 // Inside your render tree:
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <HelmetProvider>
+    <MetaProvider>
+      {/* <HelmetProvider> */}
       <AuthProvider>
         <Suspense fallback={<Loader />}>
           <RouterProvider router={router} />
         </Suspense>
         <Toaster position="top-center" />
       </AuthProvider>
-    </HelmetProvider>
+    </MetaProvider>
+    {/* </HelmetProvider> */}
   </StrictMode>
 );

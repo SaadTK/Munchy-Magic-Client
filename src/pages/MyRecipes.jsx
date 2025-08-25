@@ -3,8 +3,17 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../providers/AuthContext";
 import Loader from "../components/Loader";
 import Modal from "../components/Modal";
-import { Helmet } from "react-helmet-async";
+
+import { useMeta } from "../providers/MetaContext";
 const MyRecipes = () => {
+  const { setMeta } = useMeta();
+  useEffect(() => {
+    setMeta({
+      title: "My Recipes | Munchy Magic",
+      description:
+        "This is your recipes that you uploaded. Browse all delicious recipes from various cuisines.",
+    });
+  }, []);
   const { user } = useContext(AuthContext);
   const [myRecipes, setMyRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,14 +70,6 @@ const MyRecipes = () => {
 
   return (
     <>
-      <Helmet>
-        <title>My Recipes | Munchy Magic</title>
-        <meta
-          name="description"
-          content="Browse all delicious recipes that was submitted by you on Munchy Magic."
-        />
-      </Helmet>
-
       <div className="p-6 max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-center text-primary">
           My Recipes
