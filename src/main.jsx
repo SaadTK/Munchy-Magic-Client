@@ -31,8 +31,13 @@ const router = createBrowserRouter(
           loader: () =>
             fetch("https://munchy-magic-server.onrender.com/all-recipes"),
           element: <Home />,
+          HydrateFallback: <Loader />,
         },
-        { path: "all-recipes", element: <AllRecipes /> },
+        {
+          path: "all-recipes",
+          element: <AllRecipes />,
+          HydrateFallback: <Loader />,
+        },
 
         {
           path: "add-recipe",
@@ -42,6 +47,7 @@ const router = createBrowserRouter(
               <AddRecipe />{" "}
             </PrivateRoute>
           ),
+          HydrateFallback: <Loader />,
         },
         {
           path: "my-recipes",
@@ -50,6 +56,7 @@ const router = createBrowserRouter(
               <MyRecipes />{" "}
             </PrivateRoute>
           ),
+          HydrateFallback: <Loader />,
         },
         {
           path: "recipe-details/:id",
@@ -58,16 +65,17 @@ const router = createBrowserRouter(
               <RecipeDetails />{" "}
             </PrivateRoute>
           ),
+          HydrateFallback: <Loader />,
         },
       ],
     },
-    { path: "/login", element: <Login /> },
-    { path: "/register", element: <Register /> },
-    { path: "*", element: <Error404 /> },
-  ],
-  {
-    hydrateFallback: <Loader />,
-  }
+    { path: "/login", element: <Login />, HydrateFallback: <Loader /> },
+    { path: "/register", element: <Register />, HydrateFallback: <Loader /> },
+    { path: "*", element: <Error404 />, HydrateFallback: <Loader /> },
+  ]
+  // {
+  //   hydrateFallback: <Loader />,
+  // }
 );
 
 // Inside your render tree:
