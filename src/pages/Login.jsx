@@ -4,6 +4,7 @@ import { AuthContext } from "../providers/AuthContext.jsx";
 import toast from "react-hot-toast";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const { signIn, signInWithGoogle } = useContext(AuthContext);
@@ -46,6 +47,14 @@ const Login = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Login | Munchy Magic</title>
+        <meta
+          name="description"
+          content="Login and browse all delicious recipes from various cuisines on Munchy Magic."
+        />
+      </Helmet>
+
       <header>
         <Header />
       </header>

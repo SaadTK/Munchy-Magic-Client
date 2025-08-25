@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import toast from "react-hot-toast"; // ✅ react-hot-toast
+import toast from "react-hot-toast";
 import { AuthContext } from "../providers/AuthContext";
-
+import { Helmet } from "react-helmet-async";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
@@ -59,13 +59,21 @@ const Register = () => {
       toast.success("Google login successful!");
       navigate("/");
     } catch (err) {
-      console.log(err)
+      console.log(err);
       toast.error("Google login failed!");
     }
   };
 
   return (
     <>
+      <Helmet>
+        <title>Register | Munchy Magic</title>
+        <meta
+          name="description"
+          content="Register now and browse all delicious recipes from various cuisines on Munchy Magic."
+        />
+      </Helmet>
+
       <header>
         <Header />
       </header>

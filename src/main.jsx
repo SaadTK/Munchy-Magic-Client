@@ -1,3 +1,4 @@
+import { HelmetProvider } from "react-helmet-async";
 import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -26,7 +27,8 @@ const router = createBrowserRouter(
       children: [
         {
           index: true,
-          loader: () => fetch("https://munchy-magic-server.onrender.com/all-recipes"),
+          loader: () =>
+            fetch("https://munchy-magic-server.onrender.com/all-recipes"),
           element: <Home />,
         },
         { path: "all-recipes", element: <AllRecipes /> },
@@ -67,14 +69,16 @@ const router = createBrowserRouter(
   }
 );
 
+// Inside your render tree:
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <Suspense fallback={<Loader />}>
-        <RouterProvider router={router} />
-        {/* <ToastContainer position="top-center" /> */}
-      </Suspense>
-      <Toaster position="top-center" />
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <Suspense fallback={<Loader />}>
+          <RouterProvider router={router} />
+        </Suspense>
+        <Toaster position="top-center" />
+      </AuthProvider>
+    </HelmetProvider>
   </StrictMode>
 );

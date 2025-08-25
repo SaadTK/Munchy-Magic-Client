@@ -4,6 +4,8 @@ import Lottie from "lottie-react";
 import loaderAnimation from "../assets/loader.json";
 import { AuthContext } from "../providers/AuthContext";
 
+import { Helmet } from "react-helmet-async";
+
 const Error404 = ({
   message = "Oops! Page not found or something went wrong.",
 }) => {
@@ -21,62 +23,72 @@ const Error404 = ({
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#ffe6e6",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 24,
-        textAlign: "center",
-      }}
-      role="alert"
-    >
-      <Lottie
-        animationData={loaderAnimation}
-        loop={false}
-        autoplay={true}
+    <>
+      <Helmet>
+        <title>404 Error | Munchy Magic</title>
+        <meta
+          name="description"
+          content="This is an error. Please go back to home page."
+        />
+      </Helmet>
+
+      <div
         style={{
-          width: 200,
-          height: 200,
-          filter: "hue-rotate(330deg) saturate(1.5)",
+          minHeight: "100vh",
+          backgroundColor: "#ffe6e6",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 24,
+          textAlign: "center",
         }}
-      />
-      <h1
-        style={{
-          marginTop: 24,
-          fontSize: 28,
-          color: "#cc0000",
-          fontWeight: "700",
-        }}
+        role="alert"
       >
-        {message}
-      </h1>
-      <p style={{ marginTop: 8, fontSize: 16, color: "#800000" }}>
-        The page you're looking for doesn't exist or an error occurred.
-      </p>
+        <Lottie
+          animationData={loaderAnimation}
+          loop={false}
+          autoplay={true}
+          style={{
+            width: 200,
+            height: 200,
+            filter: "hue-rotate(330deg) saturate(1.5)",
+          }}
+        />
+        <h1
+          style={{
+            marginTop: 24,
+            fontSize: 28,
+            color: "#cc0000",
+            fontWeight: "700",
+          }}
+        >
+          {message}
+        </h1>
+        <p style={{ marginTop: 8, fontSize: 16, color: "#800000" }}>
+          The page you're looking for doesn't exist or an error occurred.
+        </p>
 
-      <div style={{ marginTop: 32, display: "flex", gap: "16px" }}>
-        <button onClick={() => navigate("/")} className="btn btn-primary">
-          Go to Home
-        </button>
+        <div style={{ marginTop: 32, display: "flex", gap: "16px" }}>
+          <button onClick={() => navigate("/")} className="btn btn-primary">
+            Go to Home
+          </button>
 
-        {!user ? (
-          <button
-            onClick={() => navigate("/login")}
-            className="btn btn-outline"
-          >
-            Go to Login
-          </button>
-        ) : (
-          <button onClick={handleGoBack} className="btn btn-secondary">
-            Go Back
-          </button>
-        )}
+          {!user ? (
+            <button
+              onClick={() => navigate("/login")}
+              className="btn btn-outline"
+            >
+              Go to Login
+            </button>
+          ) : (
+            <button onClick={handleGoBack} className="btn btn-secondary">
+              Go Back
+            </button>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

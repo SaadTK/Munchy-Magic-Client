@@ -9,29 +9,36 @@ import Testimonials from "./Testimonials";
 import ChefsTips from "./ChefsTips";
 import Hero from "../components/Hero";
 import NewsLetter from "../components/NewsLetter";
-
+import { Helmet } from "react-helmet-async";
 const Home = () => {
   const recipes = useLoaderData();
   console.log(recipes);
 
   return (
-    <div className="w-screen">
-      <Hero />
+    <>
+      <Helmet>
+        <title>Munchy Magic</title>
+        <meta name="description" content="Home is Where the Heart is." />
+      </Helmet>
 
-      <AboutUs />
+      <div className="w-screen">
+        <Hero />
 
-      <TopRecipes />
+        <AboutUs />
 
-      <ChefsTips />
+        <TopRecipes />
 
-      <Testimonials />
+        <ChefsTips />
 
-      <SeeAllRecipes />
+        <Testimonials />
 
-      <ShareYourRecipe />
+        <SeeAllRecipes />
 
-      <NewsLetter />
-    </div>
+        <ShareYourRecipe />
+
+        <NewsLetter />
+      </div>
+    </>
   );
 };
 

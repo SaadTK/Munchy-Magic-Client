@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const AllRecipes = () => {
   const [recipes, setRecipes] = useState([]);
@@ -31,6 +32,15 @@ const AllRecipes = () => {
   };
 
   return (
+    <>
+    <Helmet>
+        <title>All Recipes | Munchy Magic</title>
+        <meta
+          name="description"
+          content="Browse all delicious recipes from various cuisines on Munchy Magic."
+        />
+      </Helmet>
+      
     <div className="p-6 max-w-7xl mx-auto">
       {/* Filter Dropdown */}
       <div className="mb-6 flex items-center gap-4">
@@ -85,7 +95,8 @@ const AllRecipes = () => {
           </div>
         ))}
       </div>
-    </div>
+      </div>
+          </>
   );
 };
 
