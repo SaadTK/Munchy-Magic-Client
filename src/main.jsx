@@ -19,64 +19,52 @@ import { Toaster } from "react-hot-toast";
 import Loader from "./components/Loader";
 import PrivateRoute from "./components/PrivateRoute";
 
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <MainLayout></MainLayout>,
-      errorElement: <Error404></Error404>,
-      children: [
-        {
-          index: true,
-          loader: () =>
-            fetch("https://munchy-magic-server.onrender.com/all-recipes"),
-          element: <Home />,
-          HydrateFallback: <Loader />,
-        },
-        {
-          path: "all-recipes",
-          element: <AllRecipes />,
-          HydrateFallback: <Loader />,
-        },
-
-        {
-          path: "add-recipe",
-          element: (
-            <PrivateRoute>
-              {" "}
-              <AddRecipe />{" "}
-            </PrivateRoute>
-          ),
-          HydrateFallback: <Loader />,
-        },
-        {
-          path: "my-recipes",
-          element: (
-            <PrivateRoute>
-              <MyRecipes />{" "}
-            </PrivateRoute>
-          ),
-          HydrateFallback: <Loader />,
-        },
-        {
-          path: "recipe-details/:id",
-          element: (
-            <PrivateRoute>
-              <RecipeDetails />{" "}
-            </PrivateRoute>
-          ),
-          HydrateFallback: <Loader />,
-        },
-      ],
-    },
-    { path: "/login", element: <Login />, HydrateFallback: <Loader /> },
-    { path: "/register", element: <Register />, HydrateFallback: <Loader /> },
-    { path: "*", element: <Error404 />, HydrateFallback: <Loader /> },
-  ]
-  // {
-  //   hydrateFallback: <Loader />,
-  // }
-);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    errorElement: <Error404 />,
+    children: [
+      {
+        index: true,
+        loader: () =>
+          fetch("https://munchy-magic-server.onrender.com/all-recipes"),
+        element: <Home />,
+      },
+      {
+        path: "all-recipes",
+        element: <AllRecipes />,
+      },
+      {
+        path: "add-recipe",
+        element: (
+          <PrivateRoute>
+            <AddRecipe />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-recipes",
+        element: (
+          <PrivateRoute>
+            <MyRecipes />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "recipe-details/:id",
+        element: (
+          <PrivateRoute>
+            <RecipeDetails />
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+  { path: "*", element: <Error404 /> },
+]);
 
 // Inside your render tree:
 createRoot(document.getElementById("root")).render(
