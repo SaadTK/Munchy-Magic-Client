@@ -22,7 +22,7 @@ const Home = () => {
   }, []);
 
   const recipes = useLoaderData();
-  console.log(recipes);
+  // console.log(recipes);
 
   return (
     <>

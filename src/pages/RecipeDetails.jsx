@@ -77,7 +77,7 @@ const RecipeDetails = () => {
       })
       .then((data) => {
         toast.success("You liked this recipe!");
-        console.log(data);
+        // console.log(data);
       })
       .catch((err) => {
         console.error(err);
